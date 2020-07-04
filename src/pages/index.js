@@ -1,22 +1,48 @@
-import React from "react"
-import { Link } from "gatsby"
+import React from 'react';
+import PropTypes from 'prop-types';
+import {Link} from 'gatsby';
+import tw, {styled} from 'twin.macro';
+import BlogTitle from '../components/blog-title';
+import {BlogPostShape} from '../utils/shared';
+import PageSEO from '../components/seo';
+import Layout from '../components/layout';
+import useBlogPosts from '../utils/use-blog-posts';
 
-import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
+const IndexPage = () => {
+  const posts = useBlogPosts();
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link> <br />
-    <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-  </Layout>
-)
+  return (
+    <Layout>
+      <PageSEO title="Home" />
+      <BlogTitle />
+      <BlogPosts posts={posts} />
+    </Layout>
+  );
+};
 
-export default IndexPage
+const BlogPosts = ({posts = []}) => (
+  <div css={tw`mt-6`}>
+    {posts.map(post => (
+      <BlogPostItem {...post} key={post.slug} />
+    ))}
+  </div>
+);
+
+BlogPosts.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.shape(BlogPostShape))
+};
+
+const BlogPostLink = styled(Link)`
+  ${tw`block hover:underline mb-8`}
+  width: fit-content;
+`;
+const BlogPostItem = ({title, slug, publishedAt, description}) => (
+  <BlogPostLink to={slug}>
+    <div css={tw`text-2xl font-semibold`}> {`>> ${title}`}</div>
+    <div>{description}</div>
+    <div css={tw`text-sm`}>{publishedAt}</div>
+  </BlogPostLink>
+);
+BlogPostItem.propTypes = BlogPostShape;
+
+export default IndexPage;

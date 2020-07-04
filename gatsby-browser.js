@@ -4,4 +4,5 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
+/* eslint-disable import/no-unassigned-import */
+import './src/utils/globals.css';

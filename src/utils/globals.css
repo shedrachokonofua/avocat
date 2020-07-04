@@ -1,0 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap');
+
+:root {
+  --color-primary: #001524;
+}
+
+body {
+  font-family: 'Crimson Text', serif;
+}
+
+@tailwind base;

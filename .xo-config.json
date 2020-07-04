@@ -1,0 +1,8 @@
+{
+	"space": true,
+  "extends": [
+		"xo/esnext",
+		"xo-react"
+	],
+	"prettier": true
+}
