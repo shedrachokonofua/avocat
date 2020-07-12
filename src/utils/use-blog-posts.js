@@ -16,6 +16,7 @@ const useBlogPosts = () => {
             }
             fields {
               slug
+              categories
             }
           }
         }

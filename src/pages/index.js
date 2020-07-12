@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'gatsby';
-import tw, {styled} from 'twin.macro';
-import BlogTitle from '../components/blog-title';
+import tw from 'twin.macro';
 import {BlogPostShape} from '../utils/shared';
-import PageSEO from '../components/seo';
 import Layout from '../components/layout';
 import useBlogPosts from '../utils/use-blog-posts';
 
@@ -13,35 +11,40 @@ const IndexPage = () => {
 
   return (
     <Layout>
-      <PageSEO title="Home" />
-      <BlogTitle />
       <BlogPosts posts={posts} />
     </Layout>
   );
 };
 
+const BlogPostsGrid = tw.div`
+  mt-16
+  grid
+  lg:grid-flow-row
+  lg:grid-cols-4
+  gap-12
+`;
+
 const BlogPosts = ({posts = []}) => (
-  <div css={tw`mt-6`}>
+  <BlogPostsGrid>
     {posts.map(post => (
       <BlogPostItem {...post} key={post.slug} />
     ))}
-  </div>
+  </BlogPostsGrid>
 );
 
 BlogPosts.propTypes = {
   posts: PropTypes.arrayOf(PropTypes.shape(BlogPostShape))
 };
 
-const BlogPostLink = styled(Link)`
-  ${tw`block hover:underline mb-8`}
-  width: fit-content;
-`;
-const BlogPostItem = ({title, slug, publishedAt, description}) => (
-  <BlogPostLink to={slug}>
-    <div css={tw`text-2xl font-semibold`}> {`>> ${title}`}</div>
+const BlogPostItem = ({title, slug, publishedAt, description, categories}) => (
+  <div>
+    <Link to={slug} css={tw`text-3xl font-semibold block hover:underline`}>
+      {`> ${title}`}
+    </Link>
     <div>{description}</div>
+    <div css={tw`text-sm`}>{categories.join(' | ')}</div>
     <div css={tw`text-sm`}>{publishedAt}</div>
-  </BlogPostLink>
+  </div>
 );
 BlogPostItem.propTypes = BlogPostShape;
 

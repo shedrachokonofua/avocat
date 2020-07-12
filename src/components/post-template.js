@@ -4,29 +4,26 @@ import {graphql} from 'gatsby';
 import tw from 'twin.macro';
 import {MDXProvider} from '@mdx-js/react';
 import {MDXRenderer} from 'gatsby-plugin-mdx';
-import BlogTitle from './blog-title';
 import {parseBlogPostMdxData} from '../utils/shared';
+import Layout from './layout';
 
 const PostLayout = ({data: {mdx}}) => {
-  const blogPost = parseBlogPostMdxData(mdx);
+  const {title, description, categories, publishedAt} = parseBlogPostMdxData(
+    mdx
+  );
+
   return (
-    <div css={tw`min-h-screen`}>
-      <div css={tw`bg-primary p-12 text-right`}>
-        <BlogTitle />
+    <Layout>
+      <div css={tw`mb-8`}>
+        <h2 css={tw`text-5xl`}>{title}</h2>
+        <span css={tw`text-gray-500 italic block`}>{description}</span>
+        <div css={tw`text-gray-400 text-sm`}>{categories.join(' | ')}</div>
+        <span css={tw`text-gray-400 text-sm`}>{publishedAt}</span>
       </div>
-      <div css={tw`p-8`}>
-        <div css={tw`mb-8`}>
-          <h2 css={tw`text-5xl`}>{blogPost.title}</h2>
-          <span css={tw`text-gray-500 italic block`}>
-            {blogPost.description}
-          </span>
-          <span css={tw`text-gray-400 text-sm`}>{blogPost.publishedAt}</span>
-        </div>
-        <MDXProvider>
-          <MDXRenderer>{mdx.body}</MDXRenderer>
-        </MDXProvider>
-      </div>
-    </div>
+      <MDXProvider>
+        <MDXRenderer>{mdx.body}</MDXRenderer>
+      </MDXProvider>
+    </Layout>
   );
 };
 
@@ -42,6 +39,7 @@ export const pageQuery = graphql`
       }
       fields {
         slug
+        categories
       }
     }
   }

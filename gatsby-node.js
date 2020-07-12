@@ -1,14 +1,30 @@
 const path = require('path');
 const {createFilePath} = require('gatsby-source-filesystem');
 
+const getPostCategories = path => {
+  // Get portions of path, filter off empty strings
+  const pathArray = path.split('/').filter(Boolean);
+  // Exclude last item - file name
+  const categories = pathArray.slice(0, -1);
+
+  return categories;
+};
+
 exports.onCreateNode = ({node, actions, getNode}) => {
   const {createNodeField} = actions;
   if (node.internal.type === 'Mdx') {
-    const value = createFilePath({node, getNode});
+    const path = createFilePath({node, getNode});
+
     createNodeField({
       name: 'slug',
       node,
-      value: `/posts${value}`
+      value: `/posts${path}`
+    });
+
+    createNodeField({
+      name: 'categories',
+      node,
+      value: getPostCategories(path)
     });
   }
 };
