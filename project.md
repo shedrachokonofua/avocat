@@ -1,0 +1,17 @@
+# Content Scope
+- Software Engineering
+  - Functional Programming
+    - Theory
+    - Clojure
+  - Javascript
+    - Tooling
+    - Typescript
+- Music
+  - Round Ups
+  - Short Form Essay
+- Film
+  - Round Ups
+  - Short Form Essay
+- Philosophy
+  - Round Ups
+  - Short Form Essay
